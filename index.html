@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Código Morse</title>
     <link rel="stylesheet" href="css/style.css">
-    <title>Traductor</title>
 </head>
 <body>
-    <h1 class="title_main">Traductor de Texto a Código Morse y Viceversa</h1>
-    <img src="images/morse.jpg">
-    <form id="traductor" class="traductor">
-        <label for="initialText">Traductor de texto</label>
-        <input type="texto" id="initialText">
-        <button id="translate">Traducir</button>
-    </form>
-    <h1>Traducción</h1>
-    <p id="textTranslate"></p>
+        <h1>Traductor de Código Morse</h1>
+        
+        <label for="initialText"><p>Escribe el texto o código Morse:</p></label>
+        <input type="text" id="initialText" placeholder="Escribe aquí..." />
+        
+        <button id="translate"><p>Traducir</p></button>
+
+        <label for="textTranslate"><p>Resultado:</p></label>
+        <textarea id="textTranslate" readonly></textarea>
+        <img src="images/morse.jpg">
+
+    <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,105 +1,63 @@
-const textoMorse = {
-    A: ".-",
-    B: "-...",
-    C: "-.-.",
-    D: "-..",
-    E: ".",
-    F: "..-.",
-    G: "--.",
-    H: "....",
-    I: "..",
-    J: ".---",
-    K: "-.-",
-    L: ".-..",
-    M: "--",
-    N: "-.",
-    Ñ: "--.--",
-    O: "---",
-    P: ".--.",
-    Q: "--.-",
-    R: ".-.",
-    S: "...",
-    T: "-",
-    U: "..-",
-    V: "...-",
-    W: ".--",
-    X: "-..-",
-    Y: "-.--",
-    Z: "--..",
-    0: "-----",
-    1: ".----",
-    3: "...--",
-    4: "....-",
-    5: ".....",
-    6: "-....",
-    7: "--...",
-    8: "---..",
-    9: "----.",
-    ".": ".-.-.-",
-    ",": "--..--",
-    "?": "..--..",
-    ";": "-.-.-.",
-    "/": "-..-.",
-}; 
-
-const morseTexto = {
-    ".-"        :A,
-    "-..."      :B,
-    "-.-."      :C, 
-    "-.."       :D,
-    "."         :E,
-    "..-."      :F,
-    "--."       :G,
-    "...."      :H,
-    ".."        :I,
-    ".---"      :J,
-    "-.-"       :K,
-    ".-.."      :L,
-    "--"        :M,
-    "-."        :N,
-    "--.--"     :Ñ,
-    "---"       :O,
-    ".--."      :P,
-    "--.-"      :Q,
-    ".-."       :R,
-    "..."       :S,
-    "-"         :T,
-    "..-"       :U,
-    "...-"      :V,
-    ".--"       :W,
-    "-..-"      :X,
-    "-.--"      :Y,
-    "--.."      :Z,
-    0: "-----",
-    1: ".----",
-    3: "...--",
-    4: "....-",
-    5: ".....",
-    6: "-....",
-    7: "--...",
-    8: "---..",
-    9: "----.",
-    ".": ".-.-.-",
-    ",": "--..--",
-    "?": "..--..",
-    ";": "-.-.-.",
-    "/": "-..-.",
-}; 
+const morseCode = {
+    "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
+    "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
+    "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.",
+    "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-",
+    "Y": "-.--", "Z": "--..", "1": ".----", "2": "..---", "3": "...--",
+    "4": "....-", "5": ".....", "6": "-....", "7": "--...", "8": "---..",
+    "9": "----.", "0": "-----", ".": ".-.-.-", ",": "--..--", "?": "..--..",
+    "/": "-..-."
+};
 
 
-
-document.getElementById("translate").addEventListener("click", function() {            
-    const input = document.getElementById("initialText").value.toUpperCase();
-    let textTranslate = ""
-    for (let letra of input){
-        if (textoMorse[letra]) {
-            textTranslate += textoMorse[letra] + ""
+function textToMorse(text) {
+    let morseMessage = "";
+    text = text.toUpperCase(); 
+    for (let char of text) {
+        if (morseCode[char]) {
+            morseMessage += morseCode[char] + " ";
+        } else if (char === " ") {
+            morseMessage += "/ "; 
         } else {
-            textTranslate += ""
+            return "Error: Ingrese caracteres válidos: " + char;
         }
     }
+    return morseMessage.trim(); 
+}
 
-    document.getElementById("textTranslate").innerText = textTranslate
+function morseToText(morse) {
+    let textMessage = "";
+    let morseWords = morse.split(" / "); 
+
+    for (let word of morseWords) {
+        let wordLetters = word.split(" ");
+        for (let morseChar of wordLetters) {
+            let letter = Object.keys(morseCode).find(key => morseCode[key] === morseChar);
+            if (letter) {
+                textMessage += letter;
+            } else {
+                return "Error: Ingrese un código Morse válido: " + morseChar;
+            }
+        }
+        textMessage += " "; 
+    }
+    return textMessage.trim(); 
+}
+
+document.getElementById("translate").addEventListener("click", function(event) {
+    event.preventDefault(); 
+
+    const inputText = document.getElementById("initialText").value;
+
+  
+    let translationResult;
+    if (inputText.includes(".")) {
     
+        translationResult = morseToText(inputText);
+    } else {
+        
+        translationResult = textToMorse(inputText);
+    }
 
-})
+    document.getElementById("textTranslate").textContent = translationResult;
+});
